@@ -29,3 +29,61 @@ public:
         }
     }
 };
+
+class Solution_2 {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size();
+        if(m > n) {
+            return findMedianSortedArrays(nums2, nums1);
+        }
+        if(n == 0) { // empty
+            return 0;
+        }
+        
+        // i + j == m - i + n - j + 1
+        // nums2[j - 1] <= nums1[i] && nums1[i - 1] <= nums2[j]
+        
+        int i_min = 0, i_max = m, half_len = (m + n + 1) / 2;
+        while(i_min <= i_max) {
+            // binary search
+            int i = (i_min + i_max) / 2;
+            int j = half_len - i;
+            if(i < m && nums2[j - 1] > nums1[i]) {
+                // i is too small
+                i_min = i + 1;
+            }
+            else if(i > 0 && nums1[i - 1] > nums2[j]) {
+                // i is too big
+                i_max = i - 1;
+            }
+            else {
+                // perfect
+                double max_left, min_right;
+                if(i == 0) {
+                    max_left = nums2[j - 1];
+                }
+                else if(j == 0) {
+                    max_left = nums1[i - 1];
+                }
+                else {
+                    max_left = max(nums1[i - 1], nums2[j - 1]);
+                }
+                if((m + n) % 2 == 1) {
+                    return max_left;
+                }
+                if(i == m) {
+                    min_right = nums2[j];
+                }
+                else if(j == n) {
+                    min_right = nums1[i];
+                }
+                else {
+                    min_right = min(nums1[i], nums2[j]);
+                }
+                return (double)(max_left + min_right) * 0.5;
+            }
+        }
+        return 0;
+    }
+};
