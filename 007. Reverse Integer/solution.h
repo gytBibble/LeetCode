@@ -5,13 +5,13 @@ public:
         int s = 1;
         if(x < 0)
             s = -1;
-        long temp = long(x) * s;
+        long temp = long(x) * s; // !!!
         vector<int> integer;
         int index = 0;
         int flag = 1;
         while(temp > 0) {
             int mod = temp % 10;
-            if(flag && mod == 0) { // 去掉前置0
+            if(flag && mod == 0) { // remove the leading 0
                 temp /= 10;
                 continue;
             }
