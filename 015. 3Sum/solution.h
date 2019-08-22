@@ -6,6 +6,7 @@ public:
         std::sort(nums.begin(), nums.end());
         for(int i = 0; i < len - 2; ++i) {
             int target = -nums[i];
+            if(target < 0) break;
             int front = i + 1;
             int back = len - 1;
             while(front < back) {
